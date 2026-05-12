@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Zap, ArrowLeft, Mail, Check } from "lucide-react";
+import { ArrowLeft, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import logo from "@/assets/logo.png";
 
 const ForgotPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,10 +26,10 @@ const ForgotPassword = () => {
         className="w-full max-w-md"
       >
         <div className="flex items-center gap-3 mb-8">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-lg shadow-primary/25">
-            <Zap className="h-5 w-5 text-white" />
+          <div className="flex h-10 w-10 items-center justify-center">
+            <img src={logo} alt="Dev Ticket Flow" className="h-9 w-9 object-contain" />
           </div>
-          <h1 className="text-xl font-bold">NexusOps</h1>
+          <h1 className="text-xl font-bold tracking-tight">Dev Ticket Flow</h1>
         </div>
 
         {sent ? (

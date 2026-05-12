@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAppStore } from "@/store";
 import { cn, getInitials, formatRelativeTime } from "@/lib/utils";
+import logo from "@/assets/logo.png";
 
 const routeLabels: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -86,10 +87,11 @@ const Topbar = () => {
           <Menu className="h-5 w-5" />
         </Button>
 
-        <div className="hidden sm:flex items-center gap-1.5 text-sm">
-          <span className="text-muted-foreground">Dev Ticket Flow</span>
+        <div className="hidden sm:flex items-center gap-2 text-sm">
+          <img src={logo} alt="Dev Ticket Flow" className="h-6 w-6 object-contain" />
+          <span className="text-muted-foreground font-semibold">Dev Ticket Flow</span>
           <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
-          <span className="font-medium">{pageTitle}</span>
+          <span className="font-medium text-foreground">{pageTitle}</span>
         </div>
         <h2 className="text-lg font-semibold sm:hidden">{pageTitle}</h2>
       </div>

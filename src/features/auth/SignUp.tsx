@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Zap, Check } from "lucide-react";
+import { Eye, EyeOff, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo.png";
 
 const passwordRequirements = [
   { label: "At least 8 characters", test: (p: string) => p.length >= 8 },
@@ -63,10 +64,10 @@ const SignUp = () => {
         className="w-full max-w-md"
       >
         <div className="flex items-center gap-3 mb-8">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-lg shadow-primary/25">
-            <Zap className="h-5 w-5 text-white" />
+          <div className="flex h-10 w-10 items-center justify-center">
+            <img src={logo} alt="Dev Ticket Flow" className="h-9 w-9 object-contain" />
           </div>
-          <h1 className="text-xl font-bold">NexusOps</h1>
+          <h1 className="text-xl font-bold tracking-tight">Dev Ticket Flow</h1>
         </div>
 
         <h2 className="text-2xl font-bold mb-2">Create your account</h2>
