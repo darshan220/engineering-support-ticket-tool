@@ -162,7 +162,7 @@ const CreateTicketModal = () => {
                     className={cn(
                       "flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer border",
                       selectedType === type.value
-                        ? "border-primary bg-primary/10 text-primary"
+                        ? "border-soft-green-border bg-soft-green text-success-text"
                         : "border-border bg-background hover:bg-accent"
                     )}
                     aria-label={`Select type: ${type.label}`}
@@ -186,7 +186,7 @@ const CreateTicketModal = () => {
                     className={cn(
                       "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer border",
                       selectedPriority === priority.value
-                        ? "border-primary bg-primary/10 text-primary"
+                        ? "border-soft-green-border bg-soft-green text-success-text"
                         : "border-border bg-background hover:bg-accent"
                     )}
                     aria-label={`Select priority: ${priority.label}`}
@@ -245,7 +245,7 @@ const CreateTicketModal = () => {
                   className={cn(
                     "px-2.5 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer border",
                     selectedLabels.includes(label.id)
-                      ? "border-primary shadow-sm"
+                      ? "border-primary shadow-[0_0_10px_rgba(22,193,93,0.15)]"
                       : "border-border hover:border-border/80"
                   )}
                   style={{

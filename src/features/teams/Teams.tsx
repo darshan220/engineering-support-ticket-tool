@@ -113,9 +113,14 @@ const Teams = () => {
                       <tr key={user.id} className="border-b border-border hover:bg-accent/30 transition-colors">
                         <td className="py-3 px-4">
                           <div className="flex items-center gap-3">
-                            <Avatar className="h-8 w-8">
-                              <AvatarFallback className="text-[9px]">{getInitials(user.name)}</AvatarFallback>
-                            </Avatar>
+                            <div className="relative">
+                              <Avatar className="h-8 w-8">
+                                <AvatarFallback className="text-[9px]">{getInitials(user.name)}</AvatarFallback>
+                              </Avatar>
+                              {user.status === "online" && (
+                                <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-primary border-2 border-background shadow-[0_0_10px_rgba(22,193,93,0.45)]" />
+                              )}
+                            </div>
                             <div>
                               <p className="text-sm font-medium">{user.name}</p>
                               <p className="text-xs text-muted-foreground">{user.email}</p>

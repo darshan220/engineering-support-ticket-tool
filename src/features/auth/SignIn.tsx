@@ -4,17 +4,18 @@ import { motion } from "framer-motion";
 import {
   Eye,
   EyeOff,
-  Zap,
-  Workflow,
-  Shield,
-  BarChart3,
   Users,
+  Ticket,
+  Workflow,
+  BarChart3,
+  Shield,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useAppStore } from "@/store";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo.png";
 
 const features = [
   { icon: Workflow, text: "Real-time ticket workflows" },
@@ -35,7 +36,13 @@ const SignIn = () => {
     e.preventDefault();
     setIsLoading(true);
     await new Promise((r) => setTimeout(r, 1200));
-    setAuthenticated(true);
+
+    // Extract name from email (everything before @)
+    const name =
+      email.split("@")[0].charAt(0).toUpperCase() +
+      email.split("@")[0].slice(1);
+
+    setAuthenticated(true, { email, name });
     navigate("/dashboard");
   };
 
@@ -58,10 +65,10 @@ const SignIn = () => {
           <motion.div
             animate={{ y: [0, -20, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[15%] left-[10%] w-64 h-40 rounded-2xl border border-border/30 bg-card/40 backdrop-blur-sm p-4 shadow-2xl"
+            className="absolute top-[12%] right-[5%] w-64 h-40 rounded-2xl border border-border/30 bg-card/40 backdrop-blur-sm p-4 shadow-2xl z-20"
           >
             <div className="flex items-center gap-2 mb-3">
-              <div className="h-3 w-3 rounded-full bg-emerald-400" />
+              <div className="h-3 w-3 rounded-full bg-primary" />
               <div className="h-2 w-20 rounded bg-foreground/10" />
             </div>
             <div className="space-y-2">
@@ -71,7 +78,7 @@ const SignIn = () => {
             </div>
             <div className="mt-3 flex gap-2">
               <div className="h-6 w-16 rounded-lg bg-primary/20" />
-              <div className="h-6 w-16 rounded-lg bg-emerald-500/20" />
+              <div className="h-6 w-16 rounded-lg bg-primary/10" />
             </div>
           </motion.div>
 
@@ -83,7 +90,7 @@ const SignIn = () => {
               ease: "easeInOut",
               delay: 1,
             }}
-            className="absolute top-[35%] right-[8%] w-56 h-32 rounded-2xl border border-border/30 bg-card/40 backdrop-blur-sm p-4 shadow-2xl"
+            className="absolute top-[45%] right-[10%] w-56 h-32 rounded-2xl border border-border/30 bg-card/40 backdrop-blur-sm p-4 shadow-2xl z-20"
           >
             <div className="text-xs text-muted-foreground mb-2">
               Sprint Velocity
@@ -107,11 +114,11 @@ const SignIn = () => {
               ease: "easeInOut",
               delay: 2,
             }}
-            className="absolute bottom-[20%] left-[15%] w-72 h-20 rounded-2xl border border-border/30 bg-card/40 backdrop-blur-sm p-3 shadow-2xl"
+            className="absolute bottom-[10%] right-[15%] w-72 h-20 rounded-2xl border border-border/30 bg-card/40 backdrop-blur-sm p-3 shadow-2xl z-20"
           >
             <div className="flex items-center gap-3">
               <div className="flex -space-x-2">
-                {["bg-blue-500", "bg-purple-500", "bg-emerald-500"].map(
+                {["bg-blue-500", "bg-purple-500", "bg-primary"].map(
                   (color, i) => (
                     <div
                       key={i}
@@ -147,12 +154,16 @@ const SignIn = () => {
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-center px-12 xl:px-20">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-primary/70 shadow-lg shadow-primary/25">
-              <Zap className="h-7 w-7 text-white" />
+          <div className="flex items-center gap-4 mb-8">
+            <div className="flex h-14 w-14 items-center justify-center">
+              <img
+                src={logo}
+                alt="Dev Ticket Flow"
+                className="h-12 w-12 object-contain"
+              />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">NexusOps</h1>
+              <h1 className="text-3xl font-bold">Dev Ticket Flow</h1>
               <p className="text-xs text-muted-foreground">
                 Engineering Platform
               </p>
@@ -203,10 +214,14 @@ const SignIn = () => {
         >
           {/* Mobile logo */}
           <div className="flex items-center gap-3 mb-8 lg:hidden">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-lg shadow-primary/25">
-              <Zap className="h-5 w-5 text-white" />
+            <div className="flex h-12 w-12 items-center justify-center">
+              <img
+                src={logo}
+                alt="Dev Ticket Flow"
+                className="h-10 w-10 object-contain"
+              />
             </div>
-            <h1 className="text-xl font-bold">NexusOps</h1>
+            <h1 className="text-2xl font-bold">Dev Ticket Flow</h1>
           </div>
 
           <div className="mb-8">
@@ -224,7 +239,7 @@ const SignIn = () => {
               <Input
                 id="signin-email"
                 type="email"
-                placeholder="alex@nexusops.io"
+                placeholder="alex@devticketflow.io"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -294,44 +309,7 @@ const SignIn = () => {
             </Button>
           </form>
 
-          <div className="relative my-6">
-            <Separator />
-            <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-3 text-xs text-muted-foreground">
-              or continue with
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <Button
-              variant="outline"
-              className="h-11"
-              type="button"
-              aria-label="Sign in with Google"
-              tabIndex={0}
-            >
-              <svg className="h-4 w-4 mr-2" viewBox="0 0 24 24">
-                <path
-                  fill="#4285F4"
-                  d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
-                />
-                <path
-                  fill="#34A853"
-                  d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                />
-                <path
-                  fill="#FBBC05"
-                  d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-                />
-                <path
-                  fill="#EA4335"
-                  d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                />
-              </svg>
-              Google
-            </Button>
-          </div>
-
-          <p className="mt-6 text-center text-sm text-muted-foreground">
+          <p className="mt-8 text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
             <Link
               to="/signup"

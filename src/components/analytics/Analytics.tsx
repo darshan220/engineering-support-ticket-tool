@@ -66,20 +66,20 @@ const Analytics = () => {
                 <AreaChart data={chartData.ticketActivity}>
                   <defs>
                     <linearGradient id="trendCreated" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#4ADE80" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#4ADE80" stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="trendResolved" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#16C15D" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#16C15D" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
                   <XAxis dataKey="day" stroke="var(--color-muted-foreground)" fontSize={12} />
                   <YAxis stroke="var(--color-muted-foreground)" fontSize={12} />
                   <Tooltip contentStyle={{ backgroundColor: "var(--color-card)", border: "1px solid var(--color-border)", borderRadius: "12px", fontSize: "12px" }} />
-                  <Area type="monotone" dataKey="created" stroke="#6366f1" fillOpacity={1} fill="url(#trendCreated)" strokeWidth={2} />
-                  <Area type="monotone" dataKey="resolved" stroke="#10b981" fillOpacity={1} fill="url(#trendResolved)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="created" stroke="#4ADE80" fillOpacity={1} fill="url(#trendCreated)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="resolved" stroke="#16C15D" fillOpacity={1} fill="url(#trendResolved)" strokeWidth={2} />
                 </AreaChart>
               </ResponsiveContainer>
             </CardContent>
@@ -99,7 +99,7 @@ const Analytics = () => {
                   <XAxis dataKey="month" stroke="var(--color-muted-foreground)" fontSize={12} />
                   <YAxis stroke="var(--color-muted-foreground)" fontSize={12} />
                   <Tooltip contentStyle={{ backgroundColor: "var(--color-card)", border: "1px solid var(--color-border)", borderRadius: "12px", fontSize: "12px" }} />
-                  <Bar dataKey="met" fill="#10b981" radius={[4, 4, 0, 0]} name="SLA Met %" />
+                  <Bar dataKey="met" fill="#16C15D" radius={[4, 4, 0, 0]} name="SLA Met %" />
                   <Bar dataKey="missed" fill="#ef4444" radius={[4, 4, 0, 0]} name="SLA Missed %" />
                 </BarChart>
               </ResponsiveContainer>
@@ -120,7 +120,7 @@ const Analytics = () => {
                   <XAxis type="number" stroke="var(--color-muted-foreground)" fontSize={12} unit="h" />
                   <YAxis type="category" dataKey="type" stroke="var(--color-muted-foreground)" fontSize={12} width={80} />
                   <Tooltip contentStyle={{ backgroundColor: "var(--color-card)", border: "1px solid var(--color-border)", borderRadius: "12px", fontSize: "12px" }} />
-                  <Bar dataKey="hours" fill="#6366f1" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="hours" fill="#4ADE80" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>

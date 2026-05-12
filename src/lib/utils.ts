@@ -59,7 +59,7 @@ export const getStatusColor = (status: string): string => {
     "in-progress": "text-amber-400 bg-amber-500/10",
     "in-review": "text-purple-400 bg-purple-500/10",
     testing: "text-cyan-400 bg-cyan-500/10",
-    done: "text-emerald-400 bg-emerald-500/10",
+    done: "text-success-text bg-success-bg",
     blocked: "text-red-400 bg-red-500/10",
   };
   return colors[status] || colors.backlog;

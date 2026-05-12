@@ -6,7 +6,6 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAppStore } from "@/store";
-import { currentUser } from "@/data/mock-data";
 import { cn, getInitials, formatRelativeTime, getPriorityColor, getStatusColor, getTypeIcon, formatDate } from "@/lib/utils";
 
 const containerVariants = {
@@ -16,8 +15,8 @@ const containerVariants = {
 const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
 
 const MyTickets = () => {
-  const { tickets } = useAppStore();
-  const myTickets = tickets.filter((t) => t.assignee.id === currentUser.id);
+  const { tickets, user } = useAppStore();
+  const myTickets = tickets.filter((t) => t.assignee.email === user?.email);
   const assignedToMe = myTickets.filter((t) => t.status !== "done");
   const dueSoon = myTickets
     .filter((t) => {

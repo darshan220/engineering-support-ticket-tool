@@ -42,9 +42,9 @@ const TicketCard = ({ ticket, isDragging = false, onClick }: TicketCardProps) =>
       {...listeners}
       onClick={onClick}
       className={cn(
-        "group cursor-pointer rounded-xl border border-border bg-card p-3 shadow-sm transition-all duration-200 hover:shadow-md hover:border-primary/30",
-        isSortDragging && "opacity-50",
-        isDragging && "shadow-2xl border-primary/50"
+        "group cursor-pointer rounded-xl border border-border/50 bg-card p-4 shadow-sm transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-primary/30 hover:-translate-y-0.5 active:scale-[0.98]",
+        isSortDragging && "opacity-50 grayscale-[0.5]",
+        isDragging && "shadow-[0_20px_50px_rgba(22,193,93,0.15)] border-primary/60 scale-[1.02] rotate-2 z-50"
       )}
       role="button"
       tabIndex={0}

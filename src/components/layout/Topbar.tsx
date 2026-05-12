@@ -9,7 +9,6 @@ import {
   Plus,
   Menu,
   ChevronRight,
-  Check,
   AlertTriangle,
   Info,
   XCircle,
@@ -30,7 +29,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAppStore } from "@/store";
-import { currentUser } from "@/data/mock-data";
 import { cn, getInitials, formatRelativeTime } from "@/lib/utils";
 
 const routeLabels: Record<string, string> = {
@@ -40,6 +38,7 @@ const routeLabels: Record<string, string> = {
   "/assigned": "Assigned",
   "/analytics": "Analytics",
   "/teams": "Teams",
+  "/inbox": "Inbox",
   "/settings": "Settings",
 };
 
@@ -53,6 +52,7 @@ const Topbar = () => {
     notifications,
     markNotificationRead,
     markAllNotificationsRead,
+    user,
   } = useAppStore();
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -87,7 +87,7 @@ const Topbar = () => {
         </Button>
 
         <div className="hidden sm:flex items-center gap-1.5 text-sm">
-          <span className="text-muted-foreground">NexusOps</span>
+          <span className="text-muted-foreground">Dev Ticket Flow</span>
           <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
           <span className="font-medium">{pageTitle}</span>
         </div>
@@ -132,7 +132,12 @@ const Topbar = () => {
         {/* Notifications */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-9 w-9" aria-label="Notifications">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative h-9 w-9"
+              aria-label="Notifications"
+            >
               <Bell className="h-4 w-4" />
               {unreadCount > 0 && (
                 <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-white">
@@ -143,7 +148,9 @@ const Topbar = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-96">
             <div className="flex items-center justify-between px-3 py-2">
-              <DropdownMenuLabel className="p-0">Notifications</DropdownMenuLabel>
+              <DropdownMenuLabel className="p-0">
+                Notifications
+              </DropdownMenuLabel>
               {unreadCount > 0 && (
                 <button
                   onClick={markAllNotificationsRead}
@@ -162,17 +169,28 @@ const Topbar = () => {
                   key={notification.id}
                   className={cn(
                     "flex items-start gap-3 p-3 cursor-pointer",
-                    !notification.read && "bg-primary/5"
+                    !notification.read && "bg-primary/5",
                   )}
                   onClick={() => markNotificationRead(notification.id)}
                 >
-                  <div className="mt-0.5 shrink-0">{getNotificationIcon(notification.type)}</div>
+                  <div className="mt-0.5 shrink-0">
+                    {getNotificationIcon(notification.type)}
+                  </div>
                   <div className="flex-1 space-y-1">
-                    <p className={cn("text-sm", !notification.read && "font-medium")}>
+                    <p
+                      className={cn(
+                        "text-sm",
+                        !notification.read && "font-medium",
+                      )}
+                    >
                       {notification.title}
                     </p>
-                    <p className="text-xs text-muted-foreground line-clamp-2">{notification.message}</p>
-                    <p className="text-xs text-muted-foreground">{formatRelativeTime(notification.timestamp)}</p>
+                    <p className="text-xs text-muted-foreground line-clamp-2">
+                      {notification.message}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {formatRelativeTime(notification.timestamp)}
+                    </p>
                   </div>
                   {!notification.read && (
                     <div className="mt-1 h-2 w-2 shrink-0 rounded-full bg-primary" />
@@ -199,7 +217,11 @@ const Topbar = () => {
               exit={{ y: 10, opacity: 0 }}
               transition={{ duration: 0.15 }}
             >
-              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              {theme === "dark" ? (
+                <Sun className="h-4 w-4" />
+              ) : (
+                <Moon className="h-4 w-4" />
+              )}
             </motion.div>
           </AnimatePresence>
         </Button>
@@ -207,7 +229,7 @@ const Topbar = () => {
         {/* Create Ticket */}
         <Button
           onClick={() => setCreateTicketOpen(true)}
-          className="hidden sm:flex gap-1.5 h-9 px-4"
+          className="hidden sm:flex gap-1.5 h-9 px-4 shadow-[0_8px_20px_rgba(22,193,93,0.25)]"
           aria-label="Create new ticket"
         >
           <Plus className="h-4 w-4" />
@@ -227,24 +249,41 @@ const Topbar = () => {
         <Separator orientation="vertical" className="h-6 hidden sm:block" />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="flex items-center gap-2 cursor-pointer outline-none" aria-label="User menu" tabIndex={0}>
+            <button
+              className="flex items-center gap-2 cursor-pointer outline-none"
+              aria-label="User menu"
+              tabIndex={0}
+            >
               <Avatar className="h-8 w-8">
-                <AvatarFallback className="text-[10px]">{getInitials(currentUser.name)}</AvatarFallback>
+                {user?.avatar && (
+                  <img
+                    src={user.avatar}
+                    alt={user.name}
+                    className="h-full w-full object-cover"
+                  />
+                )}
+                <AvatarFallback className="text-[10px]">
+                  {getInitials(user?.name || "Guest")}
+                </AvatarFallback>
               </Avatar>
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>
               <div>
-                <p className="font-medium">{currentUser.name}</p>
-                <p className="text-xs text-muted-foreground font-normal">{currentUser.email}</p>
+                <p className="font-medium">{user?.name || "Guest"}</p>
+                <p className="text-xs text-muted-foreground font-normal">
+                  {user?.email || "guest@nexusops.io"}
+                </p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">Log out</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive">
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

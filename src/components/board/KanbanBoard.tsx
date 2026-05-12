@@ -15,16 +15,29 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { Search, Filter, SlidersHorizontal, Plus, Download } from "lucide-react";
+import { Search, Plus, Download, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { AnimatePresence } from "framer-motion";
 import { useAppStore } from "@/store";
+import { cn, getInitials } from "@/lib/utils";
+
+import type { Ticket, TicketStatus } from "@/types";
 import KanbanColumn from "./KanbanColumn";
 import TicketCard from "./TicketCard";
-import TicketDetailDrawer from "@/components/ticket/TicketDetailDrawer";
-import type { Ticket, TicketStatus } from "@/types";
+import TicketDetailDrawer from "../ticket/TicketDetailDrawer";
 
 const COLUMNS: { id: TicketStatus; title: string; color: string }[] = [
   { id: "backlog", title: "Backlog", color: "#64748b" },
@@ -37,22 +50,33 @@ const COLUMNS: { id: TicketStatus; title: string; color: string }[] = [
 ];
 
 const KanbanBoard = () => {
-  const { tickets, moveTicket, setCreateTicketOpen, selectedTicketId, setSelectedTicketId } = useAppStore();
+  const {
+    tickets,
+    moveTicket,
+    setCreateTicketOpen,
+    selectedTicketId,
+    setSelectedTicketId,
+    theme,
+    toggleTheme,
+    user,
+  } = useAppStore();
   const [activeTicket, setActiveTicket] = useState<Ticket | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(KeyboardSensor)
+    useSensor(KeyboardSensor),
   );
 
   const filteredTickets = useMemo(() => {
     return tickets.filter((t) => {
-      const matchesSearch = !searchQuery ||
+      const matchesSearch =
+        !searchQuery ||
         t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         t.ticketId.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesPriority = priorityFilter === "all" || t.priority === priorityFilter;
+      const matchesPriority =
+        priorityFilter === "all" || t.priority === priorityFilter;
       return matchesSearch && matchesPriority;
     });
   }, [tickets, searchQuery, priorityFilter]);
@@ -101,26 +125,102 @@ const KanbanBoard = () => {
     }
   };
 
-  const selectedTicket = selectedTicketId ? tickets.find((t) => t.id === selectedTicketId) : null;
+  const selectedTicket = selectedTicketId
+    ? tickets.find((t) => t.id === selectedTicketId)
+    : null;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full overflow-hidden min-w-0">
       {/* Board Header */}
       <div className="border-b border-border p-4 lg:p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
             <h1 className="text-xl lg:text-2xl font-bold">Board</h1>
-            <p className="text-sm text-muted-foreground">Sprint 24 · Platform Engineering</p>
+            <p className="text-sm text-muted-foreground">
+              Sprint 24 · Platform Engineering
+            </p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" aria-label="Export board">
               <Download className="h-4 w-4 mr-1.5" />
               Export
             </Button>
-            <Button size="sm" onClick={() => setCreateTicketOpen(true)} aria-label="Create ticket">
+            <Button
+              size="sm"
+              onClick={() => setCreateTicketOpen(true)}
+              aria-label="Create ticket"
+            >
               <Plus className="h-4 w-4 mr-1.5" />
               Create Ticket
             </Button>
+
+            <Separator orientation="vertical" className="h-6 mx-1" />
+
+            {/* Theme toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+              className="h-9 w-9"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={theme}
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 10, opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {theme === "dark" ? (
+                    <Sun className="h-4 w-4" />
+                  ) : (
+                    <Moon className="h-4 w-4" />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </Button>
+
+            {/* User menu */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  className="flex items-center gap-2 cursor-pointer outline-none"
+                  aria-label="User menu"
+                  tabIndex={0}
+                >
+                  <Avatar className="h-8 w-8">
+                    {user?.avatar && (
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        className="h-full w-full object-cover"
+                      />
+                    )}
+                    <AvatarFallback className="text-[10px]">
+                      {getInitials(user?.name || "Guest")}
+                    </AvatarFallback>
+                  </Avatar>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>
+                  <div>
+                    <p className="font-medium">{user?.name || "Guest"}</p>
+                    <p className="text-xs text-muted-foreground font-normal">
+                      {user?.email || "guest@nexusops.io"}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Profile</DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-destructive">
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
 
@@ -142,11 +242,12 @@ const KanbanBoard = () => {
               <button
                 key={p}
                 onClick={() => setPriorityFilter(p)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors cursor-pointer ${
+                className={cn(
+                  "px-4 py-1.5 text-xs font-medium rounded-full transition-all border cursor-pointer",
                   priorityFilter === p
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-secondary-foreground hover:bg-accent"
-                }`}
+                    ? "bg-primary border-primary text-primary-foreground shadow-sm shadow-primary/20"
+                    : "bg-secondary/50 border-border/50 text-muted-foreground hover:bg-secondary hover:text-foreground",
+                )}
                 aria-label={`Filter by ${p} priority`}
                 tabIndex={0}
               >
@@ -157,16 +258,15 @@ const KanbanBoard = () => {
         </div>
       </div>
 
-      {/* Kanban Board */}
-      <ScrollArea className="flex-1">
-        <div className="p-4 lg:p-6">
+      <ScrollArea className="flex-1 w-full overflow-hidden">
+        <div className="h-full px-4 lg:px-8 py-6">
           <DndContext
             sensors={sensors}
             collisionDetection={closestCorners}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           >
-            <div className="flex gap-4 min-w-max pb-4">
+            <div className="flex gap-6 pb-4 w-max min-w-full h-full">
               {COLUMNS.map((column) => (
                 <KanbanColumn
                   key={column.id}
@@ -177,6 +277,8 @@ const KanbanBoard = () => {
                   onTicketClick={(id) => setSelectedTicketId(id)}
                 />
               ))}
+              {/* Spacer for scroll padding */}
+              <div className="w-4 shrink-0" />
             </div>
 
             <DragOverlay>
@@ -188,6 +290,7 @@ const KanbanBoard = () => {
             </DragOverlay>
           </DndContext>
         </div>
+        <ScrollBar orientation="horizontal" className="z-20" />
       </ScrollArea>
 
       {/* Ticket Detail Drawer */}

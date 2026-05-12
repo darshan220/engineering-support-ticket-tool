@@ -15,9 +15,9 @@ const containerVariants = {
 const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
 
 const heatmapColors = [
-  "bg-emerald-500/10",
-  "bg-emerald-500/20",
-  "bg-emerald-500/30",
+  "bg-primary/10",
+  "bg-primary/20",
+  "bg-primary/30",
   "bg-amber-500/20",
   "bg-amber-500/30",
   "bg-red-500/20",
@@ -70,7 +70,7 @@ const Assigned = () => {
                         <span className="text-muted-foreground">Workload</span>
                         <span className={cn(
                           "font-medium",
-                          loadPercent > 80 ? "text-red-400" : loadPercent > 50 ? "text-amber-400" : "text-emerald-400"
+                          loadPercent > 80 ? "text-red-400" : loadPercent > 50 ? "text-amber-400" : "text-primary"
                         )}>
                           {active} active
                         </span>
@@ -83,7 +83,7 @@ const Assigned = () => {
                         <p className="text-[10px] text-muted-foreground">Total</p>
                       </div>
                       <div>
-                        <p className="text-lg font-bold text-emerald-500">{completed}</p>
+                        <p className="text-lg font-bold text-primary">{completed}</p>
                         <p className="text-[10px] text-muted-foreground">Done</p>
                       </div>
                       <div>

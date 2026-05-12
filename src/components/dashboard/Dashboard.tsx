@@ -32,14 +32,15 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { currentUser, tickets, sprints, chartData } from "@/data/mock-data";
+import { useAppStore } from "@/store";
+import { tickets, sprints, chartData } from "@/data/mock-data";
 import { cn, getInitials, formatRelativeTime, getPriorityColor, getTypeIcon } from "@/lib/utils";
 
 const metrics = [
   { title: "Total Tickets", value: "156", change: 12, changeLabel: "vs last sprint", icon: Ticket, color: "from-blue-500 to-blue-600" },
   { title: "Open Issues", value: "43", change: -8, changeLabel: "vs last week", icon: AlertCircle, color: "from-amber-500 to-orange-500" },
   { title: "Critical Bugs", value: "3", change: 2, changeLabel: "this sprint", icon: Bug, color: "from-red-500 to-rose-600" },
-  { title: "Resolved This Week", value: "28", change: 15, changeLabel: "vs last week", icon: CheckCircle2, color: "from-emerald-500 to-green-600" },
+  { title: "Resolved This Week", value: "28", change: 15, changeLabel: "vs last week", icon: CheckCircle2, color: "from-primary to-primary-hover" },
   { title: "Avg Resolution", value: "4.2h", change: -18, changeLabel: "improvement", icon: Clock, color: "from-purple-500 to-violet-600" },
   { title: "Sprint Velocity", value: "42", change: 8, changeLabel: "vs last sprint", icon: Zap, color: "from-indigo-500 to-blue-600" },
 ];
@@ -58,6 +59,7 @@ const itemVariants = {
 };
 
 const Dashboard = () => {
+  const { user } = useAppStore();
   const activeSprint = sprints.find((s) => s.status === "active");
   const recentTickets = [...tickets]
     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
@@ -78,7 +80,7 @@ const Dashboard = () => {
       <motion.div variants={itemVariants} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl lg:text-3xl font-bold">
-            Good {new Date().getHours() < 12 ? "morning" : new Date().getHours() < 18 ? "afternoon" : "evening"}, {currentUser.name.split(" ")[0]} 👋
+            Good {new Date().getHours() < 12 ? "morning" : new Date().getHours() < 18 ? "afternoon" : "evening"}, {(user?.name || "Guest").split(" ")[0]} 👋
           </h1>
           <p className="text-muted-foreground mt-1">
             Here's what's happening with your team today.
@@ -104,7 +106,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         {metrics.map((metric, index) => (
           <motion.div key={metric.title} variants={itemVariants}>
-            <Card className="relative overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <Card className="relative overflow-hidden hover:shadow-lg transition-shadow duration-300 rounded-2xl">
               <CardContent className="p-4">
                 <div className="flex items-start justify-between">
                   <div className={cn("flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br shadow-lg", metric.color)}>
@@ -112,7 +114,7 @@ const Dashboard = () => {
                   </div>
                   <div className={cn(
                     "flex items-center gap-1 text-xs font-medium rounded-lg px-1.5 py-0.5",
-                    metric.change > 0 ? "text-emerald-500 bg-emerald-500/10" : "text-red-400 bg-red-500/10"
+                    metric.change > 0 ? "text-success-text bg-success-bg" : "text-red-400 bg-red-500/10"
                   )}>
                     {metric.change > 0 ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
                     {Math.abs(metric.change)}%
@@ -132,7 +134,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Ticket Activity */}
         <motion.div variants={itemVariants}>
-          <Card>
+          <Card className="rounded-2xl">
             <CardHeader className="pb-2">
               <CardTitle className="text-base">Ticket Activity</CardTitle>
             </CardHeader>
@@ -141,12 +143,12 @@ const Dashboard = () => {
                 <AreaChart data={chartData.ticketActivity}>
                   <defs>
                     <linearGradient id="colorCreated" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#4ADE80" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#4ADE80" stopOpacity={0} />
                     </linearGradient>
                     <linearGradient id="colorResolved" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#16C15D" stopOpacity={0.2} />
+                      <stop offset="95%" stopColor="#16C15D" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
@@ -160,8 +162,8 @@ const Dashboard = () => {
                       fontSize: "12px",
                     }}
                   />
-                  <Area type="monotone" dataKey="created" stroke="#6366f1" fillOpacity={1} fill="url(#colorCreated)" strokeWidth={2} />
-                  <Area type="monotone" dataKey="resolved" stroke="#10b981" fillOpacity={1} fill="url(#colorResolved)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="created" stroke="#4ADE80" fillOpacity={1} fill="url(#colorCreated)" strokeWidth={2} />
+                  <Area type="monotone" dataKey="resolved" stroke="#16C15D" fillOpacity={1} fill="url(#colorResolved)" strokeWidth={2} />
                 </AreaChart>
               </ResponsiveContainer>
             </CardContent>
@@ -170,7 +172,7 @@ const Dashboard = () => {
 
         {/* Priority Distribution */}
         <motion.div variants={itemVariants}>
-          <Card>
+          <Card className="rounded-2xl">
             <CardHeader className="pb-2">
               <CardTitle className="text-base">Priority Distribution</CardTitle>
             </CardHeader>
@@ -219,7 +221,7 @@ const Dashboard = () => {
 
         {/* Team Workload */}
         <motion.div variants={itemVariants}>
-          <Card>
+          <Card className="rounded-2xl">
             <CardHeader className="pb-2">
               <CardTitle className="text-base">Team Workload</CardTitle>
             </CardHeader>
@@ -237,8 +239,8 @@ const Dashboard = () => {
                       fontSize: "12px",
                     }}
                   />
-                  <Bar dataKey="assigned" fill="#6366f1" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="completed" fill="#10b981" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="assigned" fill="#4ADE80" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="completed" fill="#16C15D" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -247,7 +249,7 @@ const Dashboard = () => {
 
         {/* Sprint Burndown */}
         <motion.div variants={itemVariants}>
-          <Card>
+          <Card className="rounded-2xl">
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">Sprint Burndown</CardTitle>
@@ -269,7 +271,7 @@ const Dashboard = () => {
                     }}
                   />
                   <Line type="monotone" dataKey="ideal" stroke="var(--color-muted-foreground)" strokeDasharray="5 5" strokeWidth={1.5} dot={false} />
-                  <Line type="monotone" dataKey="remaining" stroke="#6366f1" strokeWidth={2.5} dot={{ r: 3, fill: "#6366f1" }} />
+                  <Line type="monotone" dataKey="remaining" stroke="#16C15D" strokeWidth={2.5} dot={{ r: 3, fill: "#16C15D" }} />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
@@ -281,7 +283,7 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Recent Activity */}
         <motion.div variants={itemVariants}>
-          <Card>
+          <Card className="rounded-2xl">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">Recent Activity</CardTitle>
@@ -319,7 +321,7 @@ const Dashboard = () => {
 
         {/* Upcoming Deadlines */}
         <motion.div variants={itemVariants}>
-          <Card>
+          <Card className="rounded-2xl">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">Upcoming Deadlines</CardTitle>

@@ -10,7 +10,6 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppStore } from "@/store";
-import { currentUser } from "@/data/mock-data";
 import { cn, getInitials } from "@/lib/utils";
 
 const containerVariants = {
@@ -20,14 +19,16 @@ const containerVariants = {
 const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
 
 const Settings = () => {
-  const { theme, toggleTheme, sidebarCollapsed, toggleSidebar } = useAppStore();
+  const { theme, toggleTheme, sidebarCollapsed, toggleSidebar, user, updateUser } = useAppStore();
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [slackNotifications, setSlackNotifications] = useState(true);
   const [sprintReminders, setSprintReminders] = useState(true);
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [name, setName] = useState(user?.name || "");
 
   const handleSave = () => {
+    updateUser({ name });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -58,7 +59,8 @@ const Settings = () => {
               <CardContent className="space-y-6">
                 <div className="flex items-center gap-4">
                   <Avatar className="h-16 w-16">
-                    <AvatarFallback className="text-lg">{getInitials(currentUser.name)}</AvatarFallback>
+                    {user?.avatar && <img src={user.avatar} alt={user.name} className="h-full w-full object-cover" />}
+                    <AvatarFallback className="text-lg">{getInitials(user?.name || "Guest")}</AvatarFallback>
                   </Avatar>
                   <div>
                     <Button variant="outline" size="sm">Change Avatar</Button>
@@ -71,15 +73,20 @@ const Settings = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label htmlFor="settings-name" className="text-sm font-medium">Full Name</label>
-                    <Input id="settings-name" defaultValue={currentUser.name} aria-label="Full name" />
+                    <Input 
+                      id="settings-name" 
+                      value={name} 
+                      onChange={(e) => setName(e.target.value)}
+                      aria-label="Full name" 
+                    />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="settings-email" className="text-sm font-medium">Email</label>
-                    <Input id="settings-email" defaultValue={currentUser.email} aria-label="Email" />
+                    <Input id="settings-email" defaultValue={user?.email || ""} disabled aria-label="Email" />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="settings-role" className="text-sm font-medium">Role</label>
-                    <Input id="settings-role" defaultValue={currentUser.role} aria-label="Role" />
+                    <Input id="settings-role" defaultValue="Staff Engineer" aria-label="Role" />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="settings-timezone" className="text-sm font-medium">Timezone</label>

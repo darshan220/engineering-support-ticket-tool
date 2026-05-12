@@ -37,7 +37,13 @@ interface AppState {
 
   // Auth
   isAuthenticated: boolean;
-  setAuthenticated: (auth: boolean) => void;
+  user: {
+    email: string;
+    name: string;
+    avatar?: string;
+  } | null;
+  setAuthenticated: (auth: boolean, user?: { email: string; name: string }) => void;
+  updateUser: (updates: Partial<{ name: string; avatar: string }>) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -99,5 +105,12 @@ export const useAppStore = create<AppState>((set) => ({
 
   // Auth
   isAuthenticated: false,
-  setAuthenticated: (auth) => set({ isAuthenticated: auth }),
+  user: null,
+  setAuthenticated: (auth, user) => set({ 
+    isAuthenticated: auth,
+    user: user ? { ...user, avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}` } : null 
+  }),
+  updateUser: (updates) => set((state) => ({
+    user: state.user ? { ...state.user, ...updates } : null
+  })),
 }));
