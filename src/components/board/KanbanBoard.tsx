@@ -195,7 +195,7 @@ const KanbanBoard = () => {
               aria-label="All Users"
               tabIndex={0}
             >
-              <span className="text-[10px] font-bold">All</span>
+              <span className="text-[10px] font-bold text-foreground">All</span>
             </button>
             {users.slice(0, 6).map((u, idx) => (
               <button
@@ -216,7 +216,7 @@ const KanbanBoard = () => {
                 tabIndex={0}
               >
                 <Avatar className="h-full w-full">
-                  <AvatarFallback className="text-[10px] bg-muted">
+                  <AvatarFallback className="text-[10px] bg-muted font-medium text-foreground">
                     {getInitials(u.name)}
                   </AvatarFallback>
                 </Avatar>
@@ -252,7 +252,7 @@ const KanbanBoard = () => {
                         )}
                       >
                         <Avatar className="h-6 w-6">
-                          <AvatarFallback className="text-[8px]">
+                          <AvatarFallback className="text-[8px] font-medium text-foreground">
                             {getInitials(u.name)}
                           </AvatarFallback>
                         </Avatar>

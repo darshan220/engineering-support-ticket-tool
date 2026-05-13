@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Users as UsersIcon, Zap, Ticket, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -12,7 +13,18 @@ import { useAppStore } from "@/store";
 import { cn, getInitials } from "@/lib/utils";
 import type { Team } from "@/types";
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 },
+  },
+};
 
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const Teams = () => {
   const { tickets } = useAppStore();
@@ -23,16 +35,26 @@ const Teams = () => {
   };
 
   return (
-    <div className="p-4 lg:p-6 space-y-6">
-      <div>
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="p-4 lg:p-6 space-y-6"
+    >
+      <motion.div variants={itemVariants}>
         <h1 className="text-2xl font-bold">Teams</h1>
         <p className="text-muted-foreground">Team overview and member performance.</p>
-      </div>
+      </motion.div>
 
       {/* Team Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {teams.map((team) => (
-          <div key={team.id} onClick={() => handleTeamClick(team)} className="cursor-pointer">
+          <motion.div 
+            key={team.id} 
+            variants={itemVariants}
+            onClick={() => handleTeamClick(team)} 
+            className="cursor-pointer"
+          >
             <Card className="group hover:shadow-xl transition-all duration-500 overflow-hidden border-none bg-gradient-to-b from-card to-card/50 relative">
               <div className="absolute top-0 left-0 w-full h-[3px] opacity-70" style={{ backgroundColor: team.color }} />
               <CardHeader className="pb-3 px-4 pt-5">
@@ -94,12 +116,12 @@ const Teams = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
         ))}
       </div>
 
       {/* Member Table */}
-      <div>
+      <motion.div variants={itemVariants}>
         <Card className="border-none shadow-sm overflow-hidden bg-card/30 backdrop-blur-sm">
           <CardHeader className="border-b border-border/50 bg-muted/20">
             <div className="flex items-center justify-between">
@@ -171,7 +193,7 @@ const Teams = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </motion.div>
 
       {/* Team Details Dialog */}
       <Dialog open={!!selectedTeam} onOpenChange={() => setSelectedTeam(null)}>
@@ -263,8 +285,9 @@ const Teams = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
+    </motion.div>
   );
 };
 
 export default Teams;
+

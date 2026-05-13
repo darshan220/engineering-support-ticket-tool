@@ -109,7 +109,7 @@ const TicketCard = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Avatar className="h-6 w-6">
-            <AvatarFallback className="text-[8px]">
+            <AvatarFallback className="text-[8px] font-medium text-foreground">
               {getInitials(ticket.assignee.name)}
             </AvatarFallback>
           </Avatar>
