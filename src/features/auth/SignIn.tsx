@@ -239,7 +239,7 @@ const SignIn = () => {
               <Input
                 id="signin-email"
                 type="email"
-                placeholder="alex@devticketflow.io"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
