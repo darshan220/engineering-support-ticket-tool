@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
@@ -54,8 +54,15 @@ const Topbar = () => {
     markNotificationRead,
     markAllNotificationsRead,
     user,
+    setAuthenticated,
   } = useAppStore();
+  const navigate = useNavigate();
   const [searchOpen, setSearchOpen] = useState(false);
+
+  const handleLogout = () => {
+    setAuthenticated(false);
+    navigate("/signin");
+  };
 
   const unreadCount = notifications.filter((n) => !n.read).length;
   const pageTitle = routeLabels[location.pathname] || "Dashboard";
@@ -272,18 +279,25 @@ const Topbar = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel>
-              <div>
+              <div className="flex flex-col space-y-1">
                 <p className="font-medium">{user?.name || "Guest"}</p>
                 <p className="text-xs text-muted-foreground font-normal">
+                  {user?.role || "Staff Engineer"}
+                </p>
+                <p className="text-[10px] text-muted-foreground font-normal opacity-70">
                   {user?.email || "guest@nexusops.io"}
                 </p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigate("/settings")} className="cursor-pointer">
+              Profile Settings
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
+            <DropdownMenuItem 
+              className="text-destructive cursor-pointer"
+              onClick={handleLogout}
+            >
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>

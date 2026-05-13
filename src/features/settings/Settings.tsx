@@ -26,9 +26,10 @@ const Settings = () => {
   const [twoFactorEnabled, setTwoFactorEnabled] = useState(false);
   const [saved, setSaved] = useState(false);
   const [name, setName] = useState(user?.name || "");
+  const [role, setRole] = useState(user?.role || "Staff Engineer");
 
   const handleSave = () => {
-    updateUser({ name });
+    updateUser({ name, role });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -86,7 +87,12 @@ const Settings = () => {
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="settings-role" className="text-sm font-medium">Role</label>
-                    <Input id="settings-role" defaultValue="Staff Engineer" aria-label="Role" />
+                    <Input 
+                      id="settings-role" 
+                      value={role} 
+                      onChange={(e) => setRole(e.target.value)}
+                      aria-label="Role" 
+                    />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="settings-timezone" className="text-sm font-medium">Timezone</label>

@@ -40,10 +40,11 @@ interface AppState {
   user: {
     email: string;
     name: string;
+    role: string;
     avatar?: string;
   } | null;
-  setAuthenticated: (auth: boolean, user?: { email: string; name: string }) => void;
-  updateUser: (updates: Partial<{ name: string; avatar: string }>) => void;
+  setAuthenticated: (auth: boolean, user?: { email: string; name: string; role?: string }) => void;
+  updateUser: (updates: Partial<{ name: string; avatar: string; role: string }>) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -108,9 +109,20 @@ export const useAppStore = create<AppState>((set) => ({
   user: null,
   setAuthenticated: (auth, user) => set({ 
     isAuthenticated: auth,
-    user: user ? { ...user, avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}` } : null 
+    user: user ? { 
+      ...user, 
+      role: user.role || "Staff Engineer",
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}` 
+    } : null 
   }),
   updateUser: (updates) => set((state) => ({
-    user: state.user ? { ...state.user, ...updates } : null
+    user: state.user 
+      ? { ...state.user, ...updates } 
+      : { 
+          email: "guest@devticketflow.io", 
+          name: updates.name || "Guest", 
+          role: updates.role || "Staff Engineer",
+          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${updates.name || "Guest"}`
+        }
   })),
 }));

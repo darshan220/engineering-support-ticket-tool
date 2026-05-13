@@ -27,13 +27,20 @@ const ForgotPassword = () => {
       >
         <div className="flex items-center gap-3 mb-8">
           <div className="flex h-10 w-10 items-center justify-center">
-            <img src={logo} alt="Dev Ticket Flow" className="h-9 w-9 object-contain" />
+            <img
+              src={logo}
+              alt="Dev Ticket Flow"
+              className="h-9 w-9 object-contain"
+            />
           </div>
           <h1 className="text-xl font-bold tracking-tight">Dev Ticket Flow</h1>
         </div>
 
         {sent ? (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
@@ -42,9 +49,12 @@ const ForgotPassword = () => {
             >
               <Mail className="h-8 w-8 text-emerald-500" />
             </motion.div>
-            <h2 className="text-2xl font-bold mb-2 text-center">Check your email</h2>
+            <h2 className="text-2xl font-bold mb-2 text-center">
+              Check your email
+            </h2>
             <p className="text-muted-foreground text-center mb-6">
-              We've sent a password reset link to <span className="font-medium text-foreground">{email}</span>
+              We've sent a password reset link to{" "}
+              <span className="font-medium text-foreground">{email}</span>
             </p>
             <Link to="/signin">
               <Button variant="outline" className="w-full h-11">
@@ -62,7 +72,9 @@ const ForgotPassword = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <label htmlFor="reset-email" className="text-sm font-medium">Email</label>
+                <label htmlFor="reset-email" className="text-sm font-medium">
+                  Email
+                </label>
                 <Input
                   id="reset-email"
                   type="email"
@@ -74,11 +86,19 @@ const ForgotPassword = () => {
                 />
               </div>
 
-              <Button type="submit" className="w-full h-11" disabled={isLoading}>
+              <Button
+                type="submit"
+                className="w-full h-11"
+                disabled={isLoading}
+              >
                 {isLoading ? (
                   <motion.div
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 1,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                     className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full"
                   />
                 ) : (

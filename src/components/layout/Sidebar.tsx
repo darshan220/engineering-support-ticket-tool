@@ -29,7 +29,6 @@ const navItems = [
   { to: "/inbox", icon: Inbox, label: "Inbox", badge: 3 },
   { to: "/teams", icon: Users, label: "Teams" },
   { to: "/analytics", icon: BarChart3, label: "Analytics" },
-  { to: "/settings", icon: Settings, label: "Settings" },
 ];
 
 const Sidebar = () => {
@@ -178,7 +177,7 @@ const Sidebar = () => {
                     {user?.name || "Guest"}
                   </p>
                   <p className="text-xs text-muted-foreground truncate">
-                    Staff Engineer
+                    {user?.role || "Staff Engineer"}
                   </p>
                 </motion.div>
               )}
