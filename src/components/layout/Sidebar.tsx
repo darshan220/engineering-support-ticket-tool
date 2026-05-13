@@ -59,7 +59,7 @@ const Sidebar = () => {
         animate={{ width: sidebarCollapsed ? 72 : 260 }}
         transition={{ duration: 0.2, ease: "easeInOut" }}
         className={cn(
-          "fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-sidebar-border bg-sidebar-background",
+          "fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-sidebar-border bg-sidebar-background text-sidebar-foreground",
           "max-lg:translate-x-0 max-lg:shadow-2xl",
           sidebarCollapsed && "max-lg:-translate-x-full",
         )}
@@ -81,7 +81,7 @@ const Sidebar = () => {
                 exit={{ opacity: 0, width: 0 }}
                 className="overflow-hidden flex-1 flex items-center justify-between ml-1"
               >
-                <h1 className="text-xl font-bold tracking-tight whitespace-nowrap">
+                <h1 className="text-xl font-bold tracking-tight whitespace-nowrap text-sidebar-foreground">
                   Dev Ticket Flow
                 </h1>
               </motion.div>
@@ -172,7 +172,7 @@ const Sidebar = () => {
                   exit={{ opacity: 0, width: 0 }}
                   className="flex-1 overflow-hidden"
                 >
-                  <p className="text-sm font-medium truncate">
+                  <p className="text-sm font-medium truncate text-sidebar-foreground">
                     {user?.name || "Guest"}
                   </p>
                   <p className="text-xs text-muted-foreground truncate">

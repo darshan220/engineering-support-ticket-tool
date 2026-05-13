@@ -53,7 +53,41 @@ const Topbar = () => {
     setAuthenticated,
   } = useAppStore();
   const navigate = useNavigate();
-  // const [searchOpen, setSearchOpen] = useState(false);
+  const handleThemeToggle = (event: React.MouseEvent) => {
+    // @ts-ignore
+    if (!document.startViewTransition) {
+      toggleTheme();
+      return;
+    }
+
+    const x = event.clientX;
+    const y = event.clientY;
+    const endRadius = Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y),
+    );
+
+    // @ts-ignore
+    const transition = document.startViewTransition(() => {
+      toggleTheme();
+    });
+
+    transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 400,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        },
+      );
+    });
+  };
 
   const handleLogout = () => {
     setAuthenticated(false);
@@ -77,6 +111,7 @@ const Topbar = () => {
   };
 
   return (
+
     <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-border bg-background/80 backdrop-blur-xl px-4 lg:px-6">
       {/* Left */}
       <div className="flex items-center gap-3">
@@ -216,7 +251,7 @@ const Topbar = () => {
         <Button
           variant="ghost"
           size="icon"
-          onClick={toggleTheme}
+          onClick={handleThemeToggle}
           aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
           className="h-9 w-9"
         >
@@ -286,18 +321,6 @@ const Topbar = () => {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>
-              <div className="flex flex-col space-y-1">
-                <p className="font-medium">{user?.name || "Guest"}</p>
-                <p className="text-xs text-muted-foreground font-normal">
-                  {user?.role || "Staff Engineer"}
-                </p>
-                <p className="text-[10px] text-muted-foreground font-normal opacity-70">
-                  {user?.email || "guest@nexusops.io"}
-                </p>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => navigate("/settings")}
               className="cursor-pointer"

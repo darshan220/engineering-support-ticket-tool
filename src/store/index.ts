@@ -109,8 +109,13 @@ export const useAppStore = create<AppState>((set) => ({
   setGlobalSearchQuery: (query) => set({ globalSearchQuery: query }),
 
   // Auth
-  isAuthenticated: false,
-  user: null,
+  isAuthenticated: true,
+  user: {
+    email: "alex.chen@nexusops.io",
+    name: "Alex Chen",
+    role: "Staff Engineer",
+    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex Chen"
+  },
   setAuthenticated: (auth, user) => set({ 
     isAuthenticated: auth,
     user: user ? { 
@@ -123,10 +128,10 @@ export const useAppStore = create<AppState>((set) => ({
     user: state.user 
       ? { ...state.user, ...updates } 
       : { 
-          email: "guest@devticketflow.io", 
-          name: updates.name || "Guest", 
+          email: "alex.chen@nexusops.io", 
+          name: updates.name || "Alex Chen", 
           role: updates.role || "Staff Engineer",
-          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${updates.name || "Guest"}`
+          avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${updates.name || "Alex Chen"}`
         }
   })),
 }));
