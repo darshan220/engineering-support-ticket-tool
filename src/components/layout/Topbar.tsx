@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Search,
   Bell,
   Sun,
   Moon,
@@ -15,8 +13,6 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -37,7 +33,6 @@ const routeLabels: Record<string, string> = {
   "/board": "Board",
   "/my-tickets": "My Tickets",
   "/assigned": "Assigned",
-  "/analytics": "Analytics",
   "/teams": "Teams",
   "/inbox": "Inbox",
   "/settings": "Settings",
@@ -50,6 +45,7 @@ const Topbar = () => {
     toggleTheme,
     toggleSidebar,
     setCreateTicketOpen,
+    setEditingTicketId,
     notifications,
     markNotificationRead,
     markAllNotificationsRead,
@@ -57,7 +53,7 @@ const Topbar = () => {
     setAuthenticated,
   } = useAppStore();
   const navigate = useNavigate();
-  const [searchOpen, setSearchOpen] = useState(false);
+  // const [searchOpen, setSearchOpen] = useState(false);
 
   const handleLogout = () => {
     setAuthenticated(false);
@@ -95,8 +91,14 @@ const Topbar = () => {
         </Button>
 
         <div className="hidden sm:flex items-center gap-2 text-sm">
-          <img src={logo} alt="Dev Ticket Flow" className="h-6 w-6 object-contain" />
-          <span className="text-muted-foreground font-semibold">Dev Ticket Flow</span>
+          <img
+            src={logo}
+            alt="Dev Ticket Flow"
+            className="h-6 w-6 object-contain"
+          />
+          <span className="text-muted-foreground font-semibold">
+            Dev Ticket Flow
+          </span>
           <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
           <span className="font-medium text-foreground">{pageTitle}</span>
         </div>
@@ -106,7 +108,7 @@ const Topbar = () => {
       {/* Right */}
       <div className="flex items-center gap-2">
         {/* Search */}
-        <AnimatePresence>
+        {/* <AnimatePresence>
           {searchOpen && (
             <motion.div
               initial={{ width: 0, opacity: 0 }}
@@ -124,8 +126,8 @@ const Topbar = () => {
               />
             </motion.div>
           )}
-        </AnimatePresence>
-
+        </AnimatePresence> */}
+        {/* 
         {!searchOpen && (
           <Button
             variant="ghost"
@@ -136,7 +138,7 @@ const Topbar = () => {
           >
             <Search className="h-4 w-4" />
           </Button>
-        )}
+        )} */}
 
         {/* Notifications */}
         <DropdownMenu>
@@ -237,7 +239,10 @@ const Topbar = () => {
 
         {/* Create Ticket */}
         <Button
-          onClick={() => setCreateTicketOpen(true)}
+          onClick={() => {
+            setEditingTicketId(null);
+            setCreateTicketOpen(true);
+          }}
           className="hidden sm:flex gap-1.5 h-9 px-4 shadow-[0_8px_20px_rgba(22,193,93,0.25)]"
           aria-label="Create new ticket"
         >
@@ -246,7 +251,10 @@ const Topbar = () => {
         </Button>
 
         <Button
-          onClick={() => setCreateTicketOpen(true)}
+          onClick={() => {
+            setEditingTicketId(null);
+            setCreateTicketOpen(true);
+          }}
           size="icon"
           className="sm:hidden h-9 w-9"
           aria-label="Create new ticket"
@@ -290,11 +298,14 @@ const Topbar = () => {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate("/settings")} className="cursor-pointer">
+            <DropdownMenuItem
+              onClick={() => navigate("/settings")}
+              className="cursor-pointer"
+            >
               Profile Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem 
+            <DropdownMenuItem
               className="text-destructive cursor-pointer"
               onClick={handleLogout}
             >

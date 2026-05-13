@@ -7,7 +7,6 @@ import Dashboard from "@/components/dashboard/Dashboard";
 import KanbanBoard from "@/components/board/KanbanBoard";
 import MyTickets from "@/features/tickets/MyTickets";
 import Assigned from "@/features/tickets/Assigned";
-import Analytics from "@/components/analytics/Analytics";
 import Teams from "@/features/teams/Teams";
 import Inbox from "@/features/notifications/Inbox";
 import Settings from "@/features/settings/Settings";
@@ -35,7 +34,6 @@ export const router = createBrowserRouter([
       { path: "my-tickets", element: <MyTickets /> },
       { path: "assigned", element: <Assigned /> },
       { path: "inbox", element: <Inbox /> },
-      { path: "analytics", element: <Analytics /> },
       { path: "teams", element: <Teams /> },
       { path: "settings", element: <Settings /> },
     ],

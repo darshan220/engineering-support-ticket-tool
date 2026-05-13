@@ -19,7 +19,7 @@ import logo from "@/assets/logo.png";
 
 const features = [
   { icon: Workflow, text: "Real-time ticket workflows" },
-  { icon: BarChart3, text: "Sprint management & analytics" },
+  { icon: BarChart3, text: "Sprint management" },
   { icon: Users, text: "Team collaboration" },
   { icon: Shield, text: "Incident tracking & resolution" },
 ];

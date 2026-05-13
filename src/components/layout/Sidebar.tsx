@@ -28,7 +28,6 @@ const navItems = [
   { to: "/my-tickets", icon: Ticket, label: "My Tickets" },
   { to: "/inbox", icon: Inbox, label: "Inbox", badge: 3 },
   { to: "/teams", icon: Users, label: "Teams" },
-  { to: "/analytics", icon: BarChart3, label: "Analytics" },
 ];
 
 const Sidebar = () => {

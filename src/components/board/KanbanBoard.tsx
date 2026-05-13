@@ -33,6 +33,7 @@ import {
 import { AnimatePresence } from "framer-motion";
 import { useAppStore } from "@/store";
 import { cn, getInitials } from "@/lib/utils";
+import { users } from "@/data/mock-data";
 
 import type { Ticket, TicketStatus } from "@/types";
 import KanbanColumn from "./KanbanColumn";
@@ -63,6 +64,7 @@ const KanbanBoard = () => {
   const [activeTicket, setActiveTicket] = useState<Ticket | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [priorityFilter, setPriorityFilter] = useState<string>("all");
+  const [userFilter, setUserFilter] = useState<string>("all");
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -77,9 +79,10 @@ const KanbanBoard = () => {
         t.ticketId.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesPriority =
         priorityFilter === "all" || t.priority === priorityFilter;
-      return matchesSearch && matchesPriority;
+      const matchesUser = userFilter === "all" || t.assignee.id === userFilter;
+      return matchesSearch && matchesPriority && matchesUser;
     });
-  }, [tickets, searchQuery, priorityFilter]);
+  }, [tickets, searchQuery, priorityFilter, userFilter]);
 
   const columnTickets = useMemo(() => {
     const grouped: Record<TicketStatus, Ticket[]> = {
@@ -172,6 +175,99 @@ const KanbanBoard = () => {
                 {p.charAt(0).toUpperCase() + p.slice(1)}
               </button>
             ))}
+          </div>
+
+          <Separator
+            orientation="vertical"
+            className="h-8 mx-2 hidden md:block"
+          />
+
+          {/* User Filter - Different Design */}
+          <div className="flex items-center -space-x-2 overflow-hidden hover:overflow-visible p-1">
+            <button
+              onClick={() => setUserFilter("all")}
+              className={cn(
+                "cursor-pointer relative z-30 flex items-center justify-center h-8 w-8 rounded-full border-2 transition-all hover:z-40 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 bg-background",
+                userFilter === "all"
+                  ? "border-primary scale-110 shadow-md"
+                  : "border-border hover:border-primary/50",
+              )}
+              aria-label="All Users"
+              tabIndex={0}
+            >
+              <span className="text-[10px] font-bold">All</span>
+            </button>
+            {users.slice(0, 6).map((u, idx) => (
+              <button
+                key={u.id}
+                onClick={() => setUserFilter(u.id)}
+                className={cn(
+                  "cursor-pointer relative h-8 w-8 rounded-full border transition-all hover:z-40 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                  userFilter === u.id
+                    ? "z-40 border-primary scale-110 shadow-md"
+                    : "border-background hover:border-primary/50 hover:scale-105",
+                  idx === 0 && "z-20",
+                  idx === 1 && "z-15",
+                  idx === 2 && "z-10",
+                  idx === 3 && "z-5",
+                )}
+                style={{ zIndex: userFilter === u.id ? 40 : 20 - idx }}
+                aria-label={`Filter by ${u.name}`}
+                tabIndex={0}
+              >
+                <Avatar className="h-full w-full">
+                  <AvatarFallback className="text-[10px] bg-muted">
+                    {getInitials(u.name)}
+                  </AvatarFallback>
+                </Avatar>
+                {userFilter === u.id && (
+                  <motion.div
+                    layoutId="user-active"
+                    className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary rounded-full"
+                  />
+                )}
+              </button>
+            ))}
+            {users.length > 6 && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="relative z-0 flex items-center justify-center h-8 w-8 rounded-full border-2 border-background bg-secondary text-secondary-foreground transition-all hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    aria-label="More users"
+                  >
+                    <Plus className="h-3 w-3" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>Team Members</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <ScrollArea className="h-[200px]">
+                    {users.map((u) => (
+                      <DropdownMenuItem
+                        key={u.id}
+                        onClick={() => setUserFilter(u.id)}
+                        className={cn(
+                          "flex items-center gap-2 cursor-pointer",
+                          userFilter === u.id && "bg-accent",
+                        )}
+                      >
+                        <Avatar className="h-6 w-6">
+                          <AvatarFallback className="text-[8px]">
+                            {getInitials(u.name)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium">{u.name}</span>
+                          <span className="text-[10px] text-muted-foreground">
+                            {u.role}
+                          </span>
+                        </div>
+                      </DropdownMenuItem>
+                    ))}
+                  </ScrollArea>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </div>
       </div>

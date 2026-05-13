@@ -30,6 +30,8 @@ interface AppState {
   // Modals
   isCreateTicketOpen: boolean;
   setCreateTicketOpen: (open: boolean) => void;
+  editingTicketId: string | null;
+  setEditingTicketId: (id: string | null) => void;
 
   // Search
   globalSearchQuery: string;
@@ -99,6 +101,8 @@ export const useAppStore = create<AppState>((set) => ({
   // Modals
   isCreateTicketOpen: false,
   setCreateTicketOpen: (open) => set({ isCreateTicketOpen: open }),
+  editingTicketId: null,
+  setEditingTicketId: (id) => set({ editingTicketId: id }),
 
   // Search
   globalSearchQuery: "",

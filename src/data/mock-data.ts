@@ -1,4 +1,12 @@
-import type { User, Team, Ticket, Sprint, Notification, Label, KanbanColumn } from "@/types";
+import type {
+  User,
+  Team,
+  Ticket,
+  Sprint,
+  Notification,
+  Label,
+  KanbanColumn,
+} from "@/types";
 
 export const currentUser: User = {
   id: "u-001",
@@ -12,13 +20,62 @@ export const currentUser: User = {
 
 export const users: User[] = [
   currentUser,
-  { id: "u-002", name: "Sarah Mitchell", email: "sarah.m@nexusops.io", role: "Senior Engineer", department: "Backend", status: "online" },
-  { id: "u-003", name: "James Wilson", email: "james.w@nexusops.io", role: "DevOps Lead", department: "Infrastructure", status: "away" },
-  { id: "u-004", name: "Priya Patel", email: "priya.p@nexusops.io", role: "Frontend Engineer", department: "Frontend", status: "online" },
-  { id: "u-005", name: "Marcus Johnson", email: "marcus.j@nexusops.io", role: "QA Engineer", department: "Quality", status: "offline" },
-  { id: "u-006", name: "Elena Rodriguez", email: "elena.r@nexusops.io", role: "Engineering Manager", department: "Platform", status: "online" },
-  { id: "u-007", name: "David Kim", email: "david.k@nexusops.io", role: "Security Engineer", department: "Security", status: "online" },
-  { id: "u-008", name: "Lisa Chen", email: "lisa.c@nexusops.io", role: "SRE", department: "Infrastructure", status: "away" },
+  {
+    id: "u-002",
+    name: "Sarah Mitchell",
+    email: "sarah.m@nexusops.io",
+    role: "Senior Engineer",
+    department: "Backend",
+    status: "online",
+  },
+  {
+    id: "u-003",
+    name: "James Wilson",
+    email: "james.w@nexusops.io",
+    role: "DevOps Lead",
+    department: "Infrastructure",
+    status: "away",
+  },
+  {
+    id: "u-004",
+    name: "Priya Patel",
+    email: "priya.p@nexusops.io",
+    role: "Frontend Engineer",
+    department: "Frontend",
+    status: "online",
+  },
+  {
+    id: "u-005",
+    name: "Marcus Johnson",
+    email: "marcus.j@nexusops.io",
+    role: "QA Engineer",
+    department: "Quality",
+    status: "offline",
+  },
+  {
+    id: "u-006",
+    name: "Elena Rodriguez",
+    email: "elena.r@nexusops.io",
+    role: "Engineering Manager",
+    department: "Platform",
+    status: "online",
+  },
+  {
+    id: "u-007",
+    name: "David Kim",
+    email: "david.k@nexusops.io",
+    role: "Security Engineer",
+    department: "Security",
+    status: "online",
+  },
+  {
+    id: "u-008",
+    name: "Lisa Chen",
+    email: "lisa.c@nexusops.io",
+    role: "SRE",
+    department: "Infrastructure",
+    status: "away",
+  },
 ];
 
 export const labels: Label[] = [
@@ -35,9 +92,33 @@ export const labels: Label[] = [
 ];
 
 export const sprints: Sprint[] = [
-  { id: "s-001", name: "Sprint 24", startDate: "2026-05-01", endDate: "2026-05-15", status: "active", ticketCount: 28, completedCount: 14 },
-  { id: "s-002", name: "Sprint 25", startDate: "2026-05-16", endDate: "2026-05-30", status: "planned", ticketCount: 0, completedCount: 0 },
-  { id: "s-003", name: "Sprint 23", startDate: "2026-04-17", endDate: "2026-05-01", status: "completed", ticketCount: 32, completedCount: 29 },
+  {
+    id: "s-001",
+    name: "Sprint 24",
+    startDate: "2026-05-01",
+    endDate: "2026-05-15",
+    status: "active",
+    ticketCount: 28,
+    completedCount: 14,
+  },
+  {
+    id: "s-002",
+    name: "Sprint 25",
+    startDate: "2026-05-16",
+    endDate: "2026-05-30",
+    status: "planned",
+    ticketCount: 0,
+    completedCount: 0,
+  },
+  {
+    id: "s-003",
+    name: "Sprint 23",
+    startDate: "2026-04-17",
+    endDate: "2026-05-01",
+    status: "completed",
+    ticketCount: 32,
+    completedCount: 29,
+  },
 ];
 
 export const tickets: Ticket[] = [
@@ -45,7 +126,8 @@ export const tickets: Ticket[] = [
     id: "t-001",
     ticketId: "ENG-1024",
     title: "API Gateway timeout on high-throughput endpoints",
-    description: "The API gateway is experiencing intermittent timeouts when handling more than 5000 req/s on the /api/v2/transactions endpoint. This is causing 502 errors for approximately 3% of requests during peak hours. Root cause appears to be connection pool exhaustion in the upstream service mesh.",
+    description:
+      "The API gateway is experiencing intermittent timeouts when handling more than 5000 req/s on the /api/v2/transactions endpoint. This is causing 502 errors for approximately 3% of requests during peak hours. Root cause appears to be connection pool exhaustion in the upstream service mesh.",
     status: "in-progress",
     priority: "critical",
     type: "bug",
@@ -58,23 +140,64 @@ export const tickets: Ticket[] = [
     createdAt: "2026-05-08T09:30:00Z",
     updatedAt: "2026-05-12T14:22:00Z",
     comments: [
-      { id: "c-001", author: users[1], content: "Investigated the connection pool settings. Current max is 100, but we're hitting 250+ concurrent connections during peak.", createdAt: "2026-05-10T11:00:00Z" },
-      { id: "c-002", author: users[2], content: "We should also check the Envoy sidecar proxy configuration. The circuit breaker might be triggering too early.", createdAt: "2026-05-11T09:15:00Z" },
+      {
+        id: "c-001",
+        author: users[1],
+        content:
+          "Investigated the connection pool settings. Current max is 100, but we're hitting 250+ concurrent connections during peak.",
+        createdAt: "2026-05-10T11:00:00Z",
+      },
+      {
+        id: "c-002",
+        author: users[2],
+        content:
+          "We should also check the Envoy sidecar proxy configuration. The circuit breaker might be triggering too early.",
+        createdAt: "2026-05-11T09:15:00Z",
+      },
     ],
     attachments: 3,
     linkedIssues: ["ENG-1019", "ENG-1022"],
     activity: [
-      { id: "a-001", user: users[5], action: "created", target: "ENG-1024", timestamp: "2026-05-08T09:30:00Z", type: "creation" },
-      { id: "a-002", user: users[5], action: "assigned", target: "Sarah Mitchell", timestamp: "2026-05-08T09:31:00Z", type: "assignment" },
-      { id: "a-003", user: users[1], action: "changed status to", target: "In Progress", timestamp: "2026-05-09T10:00:00Z", type: "status" },
-      { id: "a-004", user: users[1], action: "changed priority to", target: "Critical", timestamp: "2026-05-10T08:00:00Z", type: "priority" },
+      {
+        id: "a-001",
+        user: users[5],
+        action: "created",
+        target: "ENG-1024",
+        timestamp: "2026-05-08T09:30:00Z",
+        type: "creation",
+      },
+      {
+        id: "a-002",
+        user: users[5],
+        action: "assigned",
+        target: "Sarah Mitchell",
+        timestamp: "2026-05-08T09:31:00Z",
+        type: "assignment",
+      },
+      {
+        id: "a-003",
+        user: users[1],
+        action: "changed status to",
+        target: "In Progress",
+        timestamp: "2026-05-09T10:00:00Z",
+        type: "status",
+      },
+      {
+        id: "a-004",
+        user: users[1],
+        action: "changed priority to",
+        target: "Critical",
+        timestamp: "2026-05-10T08:00:00Z",
+        type: "priority",
+      },
     ],
   },
   {
     id: "t-002",
     ticketId: "ENG-1025",
     title: "Kubernetes HPA not scaling pods correctly",
-    description: "The Horizontal Pod Autoscaler for the payment-service deployment is not triggering scale-up events when CPU utilization exceeds 80%. Custom metrics from Prometheus are not being picked up by the metrics-server adapter. This is impacting our ability to handle traffic spikes during business hours.",
+    description:
+      "The Horizontal Pod Autoscaler for the payment-service deployment is not triggering scale-up events when CPU utilization exceeds 80%. Custom metrics from Prometheus are not being picked up by the metrics-server adapter. This is impacting our ability to handle traffic spikes during business hours.",
     status: "in-review",
     priority: "high",
     type: "infrastructure",
@@ -87,20 +210,41 @@ export const tickets: Ticket[] = [
     createdAt: "2026-05-07T14:00:00Z",
     updatedAt: "2026-05-12T11:30:00Z",
     comments: [
-      { id: "c-003", author: users[2], content: "Found the issue. The custom metrics adapter was using an outdated API version. Updating to v1beta2.", createdAt: "2026-05-11T16:00:00Z" },
+      {
+        id: "c-003",
+        author: users[2],
+        content:
+          "Found the issue. The custom metrics adapter was using an outdated API version. Updating to v1beta2.",
+        createdAt: "2026-05-11T16:00:00Z",
+      },
     ],
     attachments: 1,
     linkedIssues: ["ENG-1020"],
     activity: [
-      { id: "a-005", user: users[7], action: "created", target: "ENG-1025", timestamp: "2026-05-07T14:00:00Z", type: "creation" },
-      { id: "a-006", user: users[2], action: "changed status to", target: "In Review", timestamp: "2026-05-12T11:30:00Z", type: "status" },
+      {
+        id: "a-005",
+        user: users[7],
+        action: "created",
+        target: "ENG-1025",
+        timestamp: "2026-05-07T14:00:00Z",
+        type: "creation",
+      },
+      {
+        id: "a-006",
+        user: users[2],
+        action: "changed status to",
+        target: "In Review",
+        timestamp: "2026-05-12T11:30:00Z",
+        type: "status",
+      },
     ],
   },
   {
     id: "t-003",
     ticketId: "ENG-1026",
     title: "Payment webhook delivery failures",
-    description: "Stripe webhook events for payment_intent.succeeded are failing with a 30% rate. The webhook endpoint is returning 500 errors due to a race condition in the idempotency check. This is causing delayed order confirmations and customer complaints.",
+    description:
+      "Stripe webhook events for payment_intent.succeeded are failing with a 30% rate. The webhook endpoint is returning 500 errors due to a race condition in the idempotency check. This is causing delayed order confirmations and customer complaints.",
     status: "in-progress",
     priority: "critical",
     type: "incident",
@@ -113,22 +257,53 @@ export const tickets: Ticket[] = [
     createdAt: "2026-05-10T07:00:00Z",
     updatedAt: "2026-05-12T16:45:00Z",
     comments: [
-      { id: "c-004", author: users[0], content: "Identified the race condition. Two workers can process the same webhook event simultaneously. Adding distributed lock with Redis.", createdAt: "2026-05-11T10:00:00Z" },
-      { id: "c-005", author: users[5], content: "This is P0. We're losing revenue. Please prioritize.", createdAt: "2026-05-11T10:30:00Z" },
-      { id: "c-006", author: users[0], content: "Fix deployed to staging. Running load tests now.", createdAt: "2026-05-12T15:00:00Z" },
+      {
+        id: "c-004",
+        author: users[0],
+        content:
+          "Identified the race condition. Two workers can process the same webhook event simultaneously. Adding distributed lock with Redis.",
+        createdAt: "2026-05-11T10:00:00Z",
+      },
+      {
+        id: "c-005",
+        author: users[5],
+        content: "This is P0. We're losing revenue. Please prioritize.",
+        createdAt: "2026-05-11T10:30:00Z",
+      },
+      {
+        id: "c-006",
+        author: users[0],
+        content: "Fix deployed to staging. Running load tests now.",
+        createdAt: "2026-05-12T15:00:00Z",
+      },
     ],
     attachments: 5,
     linkedIssues: ["ENG-1024"],
     activity: [
-      { id: "a-007", user: users[5], action: "created", target: "ENG-1026", timestamp: "2026-05-10T07:00:00Z", type: "creation" },
-      { id: "a-008", user: users[0], action: "changed status to", target: "In Progress", timestamp: "2026-05-10T08:00:00Z", type: "status" },
+      {
+        id: "a-007",
+        user: users[5],
+        action: "created",
+        target: "ENG-1026",
+        timestamp: "2026-05-10T07:00:00Z",
+        type: "creation",
+      },
+      {
+        id: "a-008",
+        user: users[0],
+        action: "changed status to",
+        target: "In Progress",
+        timestamp: "2026-05-10T08:00:00Z",
+        type: "status",
+      },
     ],
   },
   {
     id: "t-004",
     ticketId: "ENG-1027",
     title: "Auth token refresh causing session drops",
-    description: "Users are being unexpectedly logged out when their JWT access tokens expire. The refresh token rotation is failing silently when multiple tabs are open, causing a race condition where one tab invalidates the refresh token before others can use it.",
+    description:
+      "Users are being unexpectedly logged out when their JWT access tokens expire. The refresh token rotation is failing silently when multiple tabs are open, causing a race condition where one tab invalidates the refresh token before others can use it.",
     status: "todo",
     priority: "high",
     type: "bug",
@@ -144,14 +319,22 @@ export const tickets: Ticket[] = [
     attachments: 2,
     linkedIssues: [],
     activity: [
-      { id: "a-009", user: users[3], action: "created", target: "ENG-1027", timestamp: "2026-05-09T11:00:00Z", type: "creation" },
+      {
+        id: "a-009",
+        user: users[3],
+        action: "created",
+        target: "ENG-1027",
+        timestamp: "2026-05-09T11:00:00Z",
+        type: "creation",
+      },
     ],
   },
   {
     id: "t-005",
     ticketId: "ENG-1028",
     title: "Database migration for user preferences schema",
-    description: "Need to add new columns to the user_preferences table to support the notification settings revamp. This includes adding fields for Slack integration, email digest frequency, and timezone preferences. Migration should be backward compatible.",
+    description:
+      "Need to add new columns to the user_preferences table to support the notification settings revamp. This includes adding fields for Slack integration, email digest frequency, and timezone preferences. Migration should be backward compatible.",
     status: "backlog",
     priority: "medium",
     type: "task",
@@ -167,14 +350,22 @@ export const tickets: Ticket[] = [
     attachments: 0,
     linkedIssues: [],
     activity: [
-      { id: "a-010", user: users[0], action: "created", target: "ENG-1028", timestamp: "2026-05-06T15:00:00Z", type: "creation" },
+      {
+        id: "a-010",
+        user: users[0],
+        action: "created",
+        target: "ENG-1028",
+        timestamp: "2026-05-06T15:00:00Z",
+        type: "creation",
+      },
     ],
   },
   {
     id: "t-006",
     ticketId: "ENG-1029",
     title: "Implement real-time collaboration cursors",
-    description: "Add real-time presence indicators and collaboration cursors similar to Figma/Google Docs. This will use WebSocket connections to broadcast cursor positions and active selections across connected clients viewing the same ticket.",
+    description:
+      "Add real-time presence indicators and collaboration cursors similar to Figma/Google Docs. This will use WebSocket connections to broadcast cursor positions and active selections across connected clients viewing the same ticket.",
     status: "todo",
     priority: "medium",
     type: "feature",
@@ -187,7 +378,13 @@ export const tickets: Ticket[] = [
     createdAt: "2026-05-05T10:00:00Z",
     updatedAt: "2026-05-08T14:00:00Z",
     comments: [
-      { id: "c-007", author: users[3], content: "Researched WebSocket libraries. Going with Socket.io for its reconnection handling and room support.", createdAt: "2026-05-07T11:00:00Z" },
+      {
+        id: "c-007",
+        author: users[3],
+        content:
+          "Researched WebSocket libraries. Going with Socket.io for its reconnection handling and room support.",
+        createdAt: "2026-05-07T11:00:00Z",
+      },
     ],
     attachments: 1,
     linkedIssues: [],
@@ -197,7 +394,8 @@ export const tickets: Ticket[] = [
     id: "t-007",
     ticketId: "ENG-1030",
     title: "Deployment rollback automation",
-    description: "Create an automated rollback system that detects increased error rates post-deployment and automatically reverts to the previous stable version. Should integrate with ArgoCD and include Slack notifications for the on-call team.",
+    description:
+      "Create an automated rollback system that detects increased error rates post-deployment and automatically reverts to the previous stable version. Should integrate with ArgoCD and include Slack notifications for the on-call team.",
     status: "testing",
     priority: "high",
     type: "infrastructure",
@@ -218,7 +416,8 @@ export const tickets: Ticket[] = [
     id: "t-008",
     ticketId: "ENG-1031",
     title: "GraphQL query performance optimization",
-    description: "Several GraphQL queries on the dashboard are taking 3+ seconds due to N+1 query problems and missing DataLoader implementations. Need to implement DataLoader pattern and add query complexity analysis to prevent expensive queries.",
+    description:
+      "Several GraphQL queries on the dashboard are taking 3+ seconds due to N+1 query problems and missing DataLoader implementations. Need to implement DataLoader pattern and add query complexity analysis to prevent expensive queries.",
     status: "in-progress",
     priority: "medium",
     type: "performance",
@@ -239,7 +438,8 @@ export const tickets: Ticket[] = [
     id: "t-009",
     ticketId: "ENG-1032",
     title: "Implement SSO with Okta SAML integration",
-    description: "Enterprise customers require SAML-based SSO authentication through Okta. Need to implement SP-initiated SSO flow, attribute mapping, and JIT user provisioning. Must support multiple IdP configurations per organization.",
+    description:
+      "Enterprise customers require SAML-based SSO authentication through Okta. Need to implement SP-initiated SSO flow, attribute mapping, and JIT user provisioning. Must support multiple IdP configurations per organization.",
     status: "blocked",
     priority: "high",
     type: "security",
@@ -252,7 +452,13 @@ export const tickets: Ticket[] = [
     createdAt: "2026-05-02T08:00:00Z",
     updatedAt: "2026-05-10T16:00:00Z",
     comments: [
-      { id: "c-008", author: users[6], content: "Blocked on Okta developer sandbox access. IT ticket submitted, waiting for approval.", createdAt: "2026-05-10T16:00:00Z" },
+      {
+        id: "c-008",
+        author: users[6],
+        content:
+          "Blocked on Okta developer sandbox access. IT ticket submitted, waiting for approval.",
+        createdAt: "2026-05-10T16:00:00Z",
+      },
     ],
     attachments: 4,
     linkedIssues: ["ENG-1027"],
@@ -262,7 +468,8 @@ export const tickets: Ticket[] = [
     id: "t-010",
     ticketId: "ENG-1033",
     title: "CI/CD pipeline optimization - reduce build times",
-    description: "Current CI pipeline takes 25+ minutes per PR. Need to implement parallel test execution, Docker layer caching, and selective testing based on changed files. Target is sub-10 minute builds.",
+    description:
+      "Current CI pipeline takes 25+ minutes per PR. Need to implement parallel test execution, Docker layer caching, and selective testing based on changed files. Target is sub-10 minute builds.",
     status: "done",
     priority: "medium",
     type: "infrastructure",
@@ -283,7 +490,8 @@ export const tickets: Ticket[] = [
     id: "t-011",
     ticketId: "ENG-1034",
     title: "Implement rate limiting for public API",
-    description: "Add configurable rate limiting to all public API endpoints using a sliding window algorithm backed by Redis. Should support per-API-key, per-IP, and per-organization rate limits with proper 429 responses and Retry-After headers.",
+    description:
+      "Add configurable rate limiting to all public API endpoints using a sliding window algorithm backed by Redis. Should support per-API-key, per-IP, and per-organization rate limits with proper 429 responses and Retry-After headers.",
     status: "backlog",
     priority: "medium",
     type: "feature",
@@ -304,7 +512,8 @@ export const tickets: Ticket[] = [
     id: "t-012",
     ticketId: "ENG-1035",
     title: "Dashboard accessibility audit and fixes",
-    description: "Conduct a full accessibility audit of the main dashboard. Fix all WCAG 2.1 AA violations including color contrast, keyboard navigation, screen reader support, and ARIA labels. Priority focus on the Kanban board and ticket creation flow.",
+    description:
+      "Conduct a full accessibility audit of the main dashboard. Fix all WCAG 2.1 AA violations including color contrast, keyboard navigation, screen reader support, and ARIA labels. Priority focus on the Kanban board and ticket creation flow.",
     status: "todo",
     priority: "low",
     type: "task",
@@ -325,7 +534,8 @@ export const tickets: Ticket[] = [
     id: "t-013",
     ticketId: "ENG-1036",
     title: "Memory leak in WebSocket connection handler",
-    description: "Node.js processes are gradually consuming more memory over 24-48 hours. Heap snapshots show event listeners on WebSocket connections are not being cleaned up properly on client disconnect. Affects production stability.",
+    description:
+      "Node.js processes are gradually consuming more memory over 24-48 hours. Heap snapshots show event listeners on WebSocket connections are not being cleaned up properly on client disconnect. Affects production stability.",
     status: "in-progress",
     priority: "critical",
     type: "bug",
@@ -338,7 +548,13 @@ export const tickets: Ticket[] = [
     createdAt: "2026-05-11T06:00:00Z",
     updatedAt: "2026-05-12T12:00:00Z",
     comments: [
-      { id: "c-009", author: users[1], content: "Confirmed the leak. Each disconnected client leaves ~2MB of unreferenced event listeners. Working on cleanup.", createdAt: "2026-05-12T12:00:00Z" },
+      {
+        id: "c-009",
+        author: users[1],
+        content:
+          "Confirmed the leak. Each disconnected client leaves ~2MB of unreferenced event listeners. Working on cleanup.",
+        createdAt: "2026-05-12T12:00:00Z",
+      },
     ],
     attachments: 3,
     linkedIssues: [],
@@ -348,7 +564,8 @@ export const tickets: Ticket[] = [
     id: "t-014",
     ticketId: "ENG-1037",
     title: "Implement end-to-end encryption for messages",
-    description: "Add E2E encryption for internal messaging feature using the Signal Protocol. Messages should be encrypted client-side before transmission and only decryptable by intended recipients. Key exchange via X3DH protocol.",
+    description:
+      "Add E2E encryption for internal messaging feature using the Signal Protocol. Messages should be encrypted client-side before transmission and only decryptable by intended recipients. Key exchange via X3DH protocol.",
     status: "backlog",
     priority: "high",
     type: "security",
@@ -369,7 +586,8 @@ export const tickets: Ticket[] = [
     id: "t-015",
     ticketId: "ENG-1038",
     title: "Data export compliance for GDPR requests",
-    description: "Build an automated pipeline to handle GDPR data export requests. Should compile all user data across microservices, generate a portable format, encrypt the export, and notify the user when ready for download. Must complete within 72 hours per regulation.",
+    description:
+      "Build an automated pipeline to handle GDPR data export requests. Should compile all user data across microservices, generate a portable format, encrypt the export, and notify the user when ready for download. Must complete within 72 hours per regulation.",
     status: "done",
     priority: "high",
     type: "feature",
@@ -432,23 +650,120 @@ export const teams: Team[] = [
 ];
 
 export const notifications: Notification[] = [
-  { id: "n-001", type: "critical", title: "P0 Incident: Payment webhooks failing", message: "ENG-1026 escalated to P0. 30% webhook failure rate.", timestamp: "2026-05-12T16:45:00Z", read: false, category: "deployment", actionUrl: "/board" },
-  { id: "n-002", type: "warning", title: "SLA Warning: ENG-1024", message: "API Gateway timeout ticket approaching SLA deadline. 2 hours remaining.", timestamp: "2026-05-12T14:30:00Z", read: false, category: "sla", actionUrl: "/board" },
-  { id: "n-003", type: "info", title: "New comment on ENG-1026", message: "Sarah Mitchell commented: 'Fix deployed to staging. Running load tests now.'", timestamp: "2026-05-12T15:00:00Z", read: false, category: "comment" },
-  { id: "n-004", type: "success", title: "ENG-1033 Completed", message: "CI/CD pipeline optimization merged. Build times reduced to 8 minutes.", timestamp: "2026-05-10T17:00:00Z", read: true, category: "deployment" },
-  { id: "n-005", type: "info", title: "Assigned to ENG-1031", message: "Elena Rodriguez assigned you to GraphQL query performance optimization.", timestamp: "2026-05-04T13:00:00Z", read: true, category: "assignment" },
-  { id: "n-006", type: "warning", title: "Sprint 24 ending soon", message: "Sprint 24 ends in 3 days. 14 of 28 tickets completed.", timestamp: "2026-05-12T09:00:00Z", read: false, category: "sla" },
-  { id: "n-007", type: "info", title: "@mention in ENG-1025", message: "James Wilson mentioned you in a comment about HPA scaling.", timestamp: "2026-05-11T16:00:00Z", read: true, category: "mention" },
+  {
+    id: "n-001",
+    type: "critical",
+    title: "P0 Incident: Payment webhooks failing",
+    message: "ENG-1026 escalated to P0. 30% webhook failure rate.",
+    timestamp: "2026-05-12T16:45:00Z",
+    read: false,
+    category: "deployment",
+    actionUrl: "/board",
+  },
+  {
+    id: "n-002",
+    type: "warning",
+    title: "SLA Warning: ENG-1024",
+    message:
+      "API Gateway timeout ticket approaching SLA deadline. 2 hours remaining.",
+    timestamp: "2026-05-12T14:30:00Z",
+    read: false,
+    category: "sla",
+    actionUrl: "/board",
+  },
+  {
+    id: "n-003",
+    type: "info",
+    title: "New comment on ENG-1026",
+    message:
+      "Sarah Mitchell commented: 'Fix deployed to staging. Running load tests now.'",
+    timestamp: "2026-05-12T15:00:00Z",
+    read: false,
+    category: "comment",
+  },
+  {
+    id: "n-004",
+    type: "success",
+    title: "ENG-1033 Completed",
+    message:
+      "CI/CD pipeline optimization merged. Build times reduced to 8 minutes.",
+    timestamp: "2026-05-10T17:00:00Z",
+    read: true,
+    category: "deployment",
+  },
+  {
+    id: "n-005",
+    type: "info",
+    title: "Assigned to ENG-1031",
+    message:
+      "Elena Rodriguez assigned you to GraphQL query performance optimization.",
+    timestamp: "2026-05-04T13:00:00Z",
+    read: true,
+    category: "assignment",
+  },
+  {
+    id: "n-006",
+    type: "warning",
+    title: "Sprint 24 ending soon",
+    message: "Sprint 24 ends in 3 days. 14 of 28 tickets completed.",
+    timestamp: "2026-05-12T09:00:00Z",
+    read: false,
+    category: "sla",
+  },
+  {
+    id: "n-007",
+    type: "info",
+    title: "@mention in ENG-1025",
+    message: "James Wilson mentioned you in a comment about HPA scaling.",
+    timestamp: "2026-05-11T16:00:00Z",
+    read: true,
+    category: "mention",
+  },
 ];
 
 export const kanbanColumns: KanbanColumn[] = [
-  { id: "backlog", title: "Backlog", tickets: tickets.filter((t) => t.status === "backlog"), color: "#64748b" },
-  { id: "todo", title: "Todo", tickets: tickets.filter((t) => t.status === "todo"), color: "#3b82f6" },
-  { id: "in-progress", title: "In Progress", tickets: tickets.filter((t) => t.status === "in-progress"), color: "#f59e0b" },
-  { id: "in-review", title: "In Review", tickets: tickets.filter((t) => t.status === "in-review"), color: "#a855f7" },
-  { id: "testing", title: "Testing", tickets: tickets.filter((t) => t.status === "testing"), color: "#06b6d4" },
-  { id: "done", title: "Done", tickets: tickets.filter((t) => t.status === "done"), color: "#10b981" },
-  { id: "blocked", title: "Blocked", tickets: tickets.filter((t) => t.status === "blocked"), color: "#ef4444" },
+  {
+    id: "backlog",
+    title: "Backlog",
+    tickets: tickets.filter((t) => t.status === "backlog"),
+    color: "#64748b",
+  },
+  {
+    id: "todo",
+    title: "Todo",
+    tickets: tickets.filter((t) => t.status === "todo"),
+    color: "#3b82f6",
+  },
+  {
+    id: "in-progress",
+    title: "In Progress",
+    tickets: tickets.filter((t) => t.status === "in-progress"),
+    color: "#f59e0b",
+  },
+  {
+    id: "in-review",
+    title: "In Review",
+    tickets: tickets.filter((t) => t.status === "in-review"),
+    color: "#a855f7",
+  },
+  {
+    id: "testing",
+    title: "Testing",
+    tickets: tickets.filter((t) => t.status === "testing"),
+    color: "#06b6d4",
+  },
+  {
+    id: "done",
+    title: "Done",
+    tickets: tickets.filter((t) => t.status === "done"),
+    color: "#10b981",
+  },
+  {
+    id: "blocked",
+    title: "Blocked",
+    tickets: tickets.filter((t) => t.status === "blocked"),
+    color: "#ef4444",
+  },
 ];
 
 export const chartData = {
@@ -484,20 +799,5 @@ export const chartData = {
     { day: "Day 8", remaining: 16, ideal: 14 },
     { day: "Day 9", remaining: 14, ideal: 12 },
     { day: "Day 10", remaining: 14, ideal: 10 },
-  ],
-  slaPerformance: [
-    { month: "Jan", met: 92, missed: 8 },
-    { month: "Feb", met: 88, missed: 12 },
-    { month: "Mar", met: 95, missed: 5 },
-    { month: "Apr", met: 91, missed: 9 },
-    { month: "May", met: 87, missed: 13 },
-  ],
-  resolutionTime: [
-    { type: "Bug", hours: 18 },
-    { type: "Feature", hours: 72 },
-    { type: "Task", hours: 24 },
-    { type: "Incident", hours: 4 },
-    { type: "Infra", hours: 36 },
-    { type: "Security", hours: 48 },
   ],
 };

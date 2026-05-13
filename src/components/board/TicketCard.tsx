@@ -3,7 +3,13 @@ import { CSS } from "@dnd-kit/utilities";
 import { MessageSquare, Paperclip, Calendar } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { cn, getInitials, getPriorityColor, getTypeIcon, formatDate } from "@/lib/utils";
+import {
+  cn,
+  getInitials,
+  getPriorityColor,
+  getTypeIcon,
+  formatDate,
+} from "@/lib/utils";
 import type { Ticket } from "@/types";
 
 interface TicketCardProps {
@@ -19,7 +25,11 @@ const priorityLabels: Record<string, string> = {
   low: "P3",
 };
 
-const TicketCard = ({ ticket, isDragging = false, onClick }: TicketCardProps) => {
+const TicketCard = ({
+  ticket,
+  isDragging = false,
+  onClick,
+}: TicketCardProps) => {
   const {
     attributes,
     listeners,
@@ -44,7 +54,8 @@ const TicketCard = ({ ticket, isDragging = false, onClick }: TicketCardProps) =>
       className={cn(
         "group cursor-pointer rounded-xl border border-border/50 bg-card p-4 shadow-sm transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-primary/30 hover:-translate-y-0.5 active:scale-[0.98]",
         isSortDragging && "opacity-50 grayscale-[0.5]",
-        isDragging && "shadow-[0_20px_50px_rgba(22,193,93,0.15)] border-primary/60 scale-[1.02] rotate-2 z-50"
+        isDragging &&
+          "shadow-[0_20px_50px_rgba(22,193,93,0.15)] border-primary/60 scale-[1.02] rotate-2 z-50",
       )}
       role="button"
       tabIndex={0}
@@ -58,14 +69,23 @@ const TicketCard = ({ ticket, isDragging = false, onClick }: TicketCardProps) =>
     >
       {/* Top: ID + Priority */}
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs font-mono text-muted-foreground">{ticket.ticketId}</span>
-        <Badge className={cn("text-[10px] px-1.5 py-0 border", getPriorityColor(ticket.priority))}>
+        <span className="text-xs font-mono text-muted-foreground">
+          {ticket.ticketId}
+        </span>
+        <Badge
+          className={cn(
+            "text-[10px] px-1.5 py-0 border",
+            getPriorityColor(ticket.priority),
+          )}
+        >
           {priorityLabels[ticket.priority]}
         </Badge>
       </div>
 
       {/* Title */}
-      <p className="text-sm font-medium leading-snug mb-2 line-clamp-2">{ticket.title}</p>
+      <p className="text-sm font-medium leading-snug mb-2 line-clamp-2">
+        {ticket.title}
+      </p>
 
       {/* Labels */}
       {ticket.labels.length > 0 && (
@@ -89,17 +109,12 @@ const TicketCard = ({ ticket, isDragging = false, onClick }: TicketCardProps) =>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Avatar className="h-6 w-6">
-            <AvatarFallback className="text-[8px]">{getInitials(ticket.assignee.name)}</AvatarFallback>
+            <AvatarFallback className="text-[8px]">
+              {getInitials(ticket.assignee.name)}
+            </AvatarFallback>
           </Avatar>
-          <span className="text-xs">{getTypeIcon(ticket.type)}</span>
         </div>
         <div className="flex items-center gap-2.5 text-muted-foreground">
-          {ticket.dueDate && (
-            <span className="flex items-center gap-0.5 text-[10px]">
-              <Calendar className="h-3 w-3" />
-              {new Date(ticket.dueDate).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-            </span>
-          )}
           {ticket.comments.length > 0 && (
             <span className="flex items-center gap-0.5 text-[10px]">
               <MessageSquare className="h-3 w-3" />

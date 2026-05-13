@@ -10,6 +10,7 @@ import {
   Link2,
   Activity,
   Send,
+  Pencil,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +29,7 @@ import {
 } from "@/lib/utils";
 import type { Ticket } from "@/types";
 import { useState } from "react";
+import { useAppStore } from "@/store";
 
 interface TicketDetailDrawerProps {
   ticket: Ticket;
@@ -37,6 +39,7 @@ interface TicketDetailDrawerProps {
 
 const TicketDetailDrawer = ({ ticket, open, onClose }: TicketDetailDrawerProps) => {
   const [commentText, setCommentText] = useState("");
+  const { setCreateTicketOpen, setEditingTicketId } = useAppStore();
 
   return (
     <AnimatePresence>
@@ -71,9 +74,23 @@ const TicketDetailDrawer = ({ ticket, open, onClose }: TicketDetailDrawerProps) 
                   <Badge className={cn("text-xs", getStatusColor(ticket.status))}>{ticket.status}</Badge>
                   <Badge className={cn("text-xs border", getPriorityColor(ticket.priority))}>{ticket.priority}</Badge>
                 </div>
-                <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close drawer">
-                  <X className="h-5 w-5" />
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => {
+                      setEditingTicketId(ticket.id);
+                      setCreateTicketOpen(true);
+                    }}
+                    aria-label="Edit ticket"
+                    className="hover:bg-primary/10 hover:text-primary transition-colors"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </Button>
+                  <Button variant="ghost" size="icon" onClick={onClose} aria-label="Close drawer">
+                    <X className="h-5 w-5" />
+                  </Button>
+                </div>
               </div>
 
               <ScrollArea className="flex-1">

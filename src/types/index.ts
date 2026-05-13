@@ -61,6 +61,7 @@ export interface Ticket {
   sprint: string;
   storyPoints: number;
   labels: Label[];
+  startDate?: string;
   dueDate: string;
   createdAt: string;
   updatedAt: string;
