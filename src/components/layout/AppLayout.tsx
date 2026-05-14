@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import Footer from "./Footer";
 import { useAppStore } from "@/store";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -38,14 +39,17 @@ const AppLayout = () => {
         )}
       >
         <Topbar />
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto flex flex-col">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="h-full"
+            className="flex-1 flex flex-col"
           >
-            <Outlet />
+            <div className="flex-1">
+              <Outlet />
+            </div>
+            <Footer />
           </motion.div>
         </main>
       </div>

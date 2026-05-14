@@ -4,7 +4,6 @@ import {
   Bell,
   Sun,
   Moon,
-  Plus,
   Menu,
   ChevronRight,
   AlertTriangle,
@@ -270,31 +269,6 @@ const Topbar = () => {
               )}
             </motion.div>
           </AnimatePresence>
-        </Button>
-
-        {/* Create Ticket */}
-        <Button
-          onClick={() => {
-            setEditingTicketId(null);
-            setCreateTicketOpen(true);
-          }}
-          className="hidden sm:flex gap-1.5 h-9 px-4 shadow-[0_8px_20px_rgba(22,193,93,0.25)]"
-          aria-label="Create new ticket"
-        >
-          <Plus className="h-4 w-4" />
-          <span className="text-sm">Create</span>
-        </Button>
-
-        <Button
-          onClick={() => {
-            setEditingTicketId(null);
-            setCreateTicketOpen(true);
-          }}
-          size="icon"
-          className="sm:hidden h-9 w-9"
-          aria-label="Create new ticket"
-        >
-          <Plus className="h-4 w-4" />
         </Button>
 
         {/* User menu */}
